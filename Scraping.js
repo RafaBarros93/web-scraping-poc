@@ -1,4 +1,5 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer')
+const Tesseract = require("./Tesseract")
 
 const getSite = async (number_inscri, code, cod_verifation) => {
     const browser = await puppeteer.launch();
@@ -14,11 +15,20 @@ const getSite = async (number_inscri, code, cod_verifation) => {
     await page.screenshot({ path: 'nota.png' })
 
 
-    const info = await page.evaluate(() => {
+    const url = await page.evaluate(() => {
         return document.getElementById("form:img_captcha").src
+
     })
 
-    console.log(info)
+
+    const result = await Tesseract.requestUrl(url)
+
+
+    console.log(result)
+
+
+
+    // console.log("Text", textCaptcha)
 
     // await page.click("#B198797676878736164")
 
